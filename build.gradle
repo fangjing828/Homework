@@ -1,0 +1,13 @@
+apply plugin: 'java'
+
+apply plugin: 'eclipse'
+
+apply plugin: 'application'
+
+
+mainClassName = 'rest.HelloWorld'
+
+
+dependencies {
+   testCompile 'junit:junit:4.11'
+}

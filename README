@@ -1,0 +1,6 @@
+setting----------------------------------
+jdk 1.6+
+gradle 1.10
+gradle build     complie the project.
+gradle test      check method.
+
