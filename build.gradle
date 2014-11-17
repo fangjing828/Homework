@@ -9,5 +9,6 @@ mainClassName = 'rest.HelloWorld'
 
 
 dependencies {
+   
    testCompile 'junit:junit:4.11'
 }
