@@ -10,6 +10,11 @@ public class TreeDepth {
 		TreeNode right;
 		TreeNode (int x) {val = x;}
 	}
+	/**
+	 * 广度优先遍历
+	 * @param root
+	 * @return
+	 */
     public int maxDepth(TreeNode root) {
         int depth = 0;
         List<TreeNode> layers = new ArrayList<TreeNode>();
