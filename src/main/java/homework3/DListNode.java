@@ -1,5 +1,5 @@
 /* DListNode.java */
-package homework.list;
+package homework3;
 
 /**
  *  A DListNode is a node in a DList (doubly-linked list).

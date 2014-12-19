@@ -1,4 +1,4 @@
-package lab;
+package lab1;
 
 /* Fraction.java */
 import java.io.*;

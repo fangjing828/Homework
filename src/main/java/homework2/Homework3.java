@@ -1,8 +1,7 @@
-package homework;
-
-import homework.helper.TestHelper;
-
 /* Homework3.java */
+package homework2;
+
+import homework2.TestHelper;
 
 public class Homework3 {
 

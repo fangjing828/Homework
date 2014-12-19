@@ -1,6 +1,7 @@
-package homework;
-
 /* SListNode.java */
+package homework2;
+
+import homework2.SListNode;
 
 /**
  *  SListNode is a class used internally by the SList class.  An SList object

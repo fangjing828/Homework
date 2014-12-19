@@ -1,6 +1,5 @@
 /* DList.java */
-
-package homework.list;
+package homework3;
 
 /**
  *  A DList is a mutable doubly-linked list ADT.  Its implementation is
@@ -80,10 +79,7 @@ public class DList {
    *  Performance:  runs in O(1) time.
    */
   public void insertFront(Object item) {
-	DListNode node 	= this.newNode(item, head.prev, head);
-	head.prev.next 	=node;
-	head.prev 	   	= node;
-    this.size ++;
+	this.insertAfter(item, head);
   }
 
   /**
@@ -92,10 +88,7 @@ public class DList {
    *  Performance:  runs in O(1) time.
    */
   public void insertBack(Object item) {
-	DListNode node 	= this.newNode(item, head, head.next);
-	head.next.prev 	= node;
-	head.next 		= node;
-    this.size ++;
+	this.insertBefore(item, head);
   }
 
   /**
@@ -110,7 +103,7 @@ public class DList {
   public DListNode front() {
     DListNode node = null;
     
-    if (head.next.item != null) {
+    if (!this.isEmpty()) {
     	node = head.next;
     }
     
@@ -129,7 +122,7 @@ public class DList {
   public DListNode back() {
     DListNode node = null;
     
-    if (head.prev.item != null) {
+    if (!this.isEmpty()) {
     	node = head.prev;
     }
     
@@ -149,7 +142,7 @@ public class DList {
   public DListNode next(DListNode node) {
     DListNode result = null;
     
-    if (node != null && node.next.item != null) {
+    if (node != null && node.next != head) {
     	result =node.next;
     }
     
@@ -169,7 +162,7 @@ public class DList {
   public DListNode prev(DListNode node) {
     DListNode result = null;
     
-    if (node != null && node.prev.item != null) {
+    if (node != null && node.prev != head) {
     	result = node.prev;
     }
     

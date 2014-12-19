@@ -1,6 +1,6 @@
-package homework.test;
+package homework1.test;
 
-import homework.Date;
+import homework1.Date;
 
 import org.junit.*;
 public class DateTest {
@@ -52,10 +52,25 @@ public class DateTest {
 	    Assert.assertEquals("1/21/1", (new Date(1, 21, 1)).toString());
 	    Assert.assertEquals("12/31/1975", (new Date(12, 31, 1975)).toString());
 	    
-	    // String
 	    Assert.assertEquals("2/4/2", (new Date("2/4/2")).toString());
 	    Assert.assertEquals("2/29/2000", (new Date("2/29/2000")).toString());
 	    Assert.assertEquals("2/29/1904", (new Date("2/29/1904")).toString());
+	}
+	
+	@Test
+	public void testDayInYear() {
+		Date d1 = new Date(12, 31, 1975);
+	    Date d2 = new Date("1/1/1976");
+	    Date d3 = new Date("1/2/1976");
+	    Date d4 = new Date("2/1/1976");
+	    Date d5 = new Date("3/1/1976");
+	    Date d6 = new Date("3/1/1975");
+	    Assert.assertEquals(365, d1.dayInYear());
+	    Assert.assertEquals(1, d2.dayInYear());
+	    Assert.assertEquals(2, d3.dayInYear());
+	    Assert.assertEquals(32, d4.dayInYear());
+	    Assert.assertEquals(61, d5.dayInYear());
+	    Assert.assertEquals(60, d6.dayInYear());
 	}
 	
 	@Test

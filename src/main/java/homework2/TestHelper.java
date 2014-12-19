@@ -1,4 +1,4 @@
-package homework.helper;
+package homework2;
 
 /* TestHelper.java */
 
@@ -26,3 +26,4 @@ public class TestHelper {
     }
   }
 }
+

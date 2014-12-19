@@ -1,11 +1,18 @@
 /* Date.java */
-package homework;
+package homework1;
 
 public class Date {
 
   /* Put your private data fields here. */
   private static int[] daysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-  private static int[] totalDaysInMonth  = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
+  private static int[] totalDaysInMonth  = new int[12];
+  
+  static {
+	  totalDaysInMonth[0] = 0;
+	 for (int i = 1; i < 12; i ++) {
+		 totalDaysInMonth[i] = totalDaysInMonth[i - 1] + daysInMonth[i - 1];
+	 }
+  }
   
   private int month;
   private int day;
@@ -70,13 +77,13 @@ public class Date {
    *  @return the number of days in the given month.
    */
   public static int daysInMonth(int month, int year) {
-	int result = daysInMonth[month - 1];
+	int days = daysInMonth[month - 1];
 	
 	if (month == 2) {
-		result = result + (Date.isLeapYear(year) ? 1 : 0);
+		days = days + (Date.isLeapYear(year) ? 1 : 0);
 	}
 	
-    return result;
+    return days;
   }
 
   /** Checks whether the given date is valid.
@@ -85,13 +92,13 @@ public class Date {
    *  Years prior to A.D. 1 are NOT valid.
    */
   public static boolean isValidDate(int month, int day, int year) {
-	boolean result = false;
+	boolean isVaildDate = false;
 	
 	if (0 < month && 13 > month  && year > 0 && day > 0) {
-		result = day <= daysInMonth(month, year);
+		isVaildDate = day <= daysInMonth(month, year);
 	}
 	
-    return result;                        // replace this line with your solution
+    return isVaildDate;                        // replace this line with your solution
   }
 
   /** Returns a string representation of this date in the form month/day/year.
@@ -107,42 +114,42 @@ public class Date {
    *  @return true if and only if this Date is before d. 
    */
   public boolean isBefore(Date d) {
-	boolean result = false;
+	boolean isBefore = false;
 	
-	int flag = this.year - d.getYear();
-	if (flag == 0) {
-		flag = this.month - d.getMonth();
-		if (flag == 0) {
-			flag = this.day - d.getDay();
+	int compare = this.year - d.getYear();
+	if (compare == 0) {
+		compare = this.month - d.getMonth();
+		if (compare == 0) {
+			compare = this.day - d.getDay();
 		}
 	}
 	
-	if (flag < 0) {
-		result = true;
+	if (compare < 0) {
+		isBefore = true;
 	}
 	
-    return result;
+    return isBefore;
   }
 
   /** Determines whether this Date is after the Date d.
    *  @return true if and only if this Date is after d. 
    */
   public boolean isAfter(Date d) {
-	  boolean result = false;
+	  boolean isAfter = false;
 		
-	  int flag = this.year - d.getYear();
-	  if (flag == 0) {
-		  flag = this.month - d.getMonth();
-		  if (flag == 0) {
-			  flag = this.day - d.getDay();
+	  int compare = this.year - d.getYear();
+	  if (compare == 0) {
+		  compare = this.month - d.getMonth();
+		  if (compare == 0) {
+			  compare = this.day - d.getDay();
 		  }
 	  }
 		
-	  if (flag > 0) {
-		  result = true;
+	  if (compare > 0) {
+		  isAfter = true;
 	  }
 		
-	  return result;
+	  return isAfter;
   }
 
   /** Returns the number of this Date in the year.
@@ -151,13 +158,13 @@ public class Date {
    *  year.)
    */
   public int dayInYear() {
-    int result = this.getDay() + Date.totalDaysInMonth[this.month - 1];
+    int days = this.getDay() + Date.totalDaysInMonth[this.month - 1];
     
-    if (this.month >= 2) {
-    	result = result + (Date.isLeapYear(this.year) ? 1 : 0);
+    if (this.month > 2) {
+    	days = days + (Date.isLeapYear(this.year) ? 1 : 0);
     }
     
-	return result;
+	return days;
   }
 
   /** Determines the difference in days between d and this Date.  For example,
@@ -166,34 +173,28 @@ public class Date {
    *  @return the difference in days between d and this date.
    */
   public int difference(Date d) {
-	int result = this.dayInYear() - d.dayInYear();
-	int begin  = d.getYear();
-	int end    = this.year;
+	boolean isAfter = this.isAfter(d);
+	int begin 		= isAfter ? d.getYear()  	: this.getYear();
+	int end   		= isAfter ? this.getYear() 	: d.getYear();
+	int diff 		= this.dayInYear() - d.dayInYear();
 	
-	boolean flag = false;
-	
-	if (this.getYear() < d.getYear()) {
-		begin = this.getYear();
-		end   = d.getYear();
-		result = -result;
-		flag = true;
-	}
+	diff = isAfter ? diff : - diff;
 	
 	while (begin < end) {
-		result += 365;
+		diff += 365;
 		
 		if (Date.isLeapYear(begin)) {
-			result ++;
+			diff ++;
 		}
 		
 		begin ++;
 	}
 	
-	if (flag) {
-		result = -result;
+	if (! isAfter) {
+		diff = - diff;
 	}
 	
-    return result;
+    return diff;
   }
   
   public int getMonth() {
@@ -270,3 +271,4 @@ public class Date {
                        d5.difference(d4));
   }
 }
+

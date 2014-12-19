@@ -1,8 +1,7 @@
-package homework;
-
-import homework.helper.TestHelper;
-
 /* SList.java */
+package homework2;
+
+import homework2.TestHelper;
 
 /**
  *  The SList class is a singly-linked implementation of the linked list
@@ -159,7 +158,6 @@ public class SList {
    **/
 
   public String toString() {
-    int i;
     Object obj;
     String result = "[  ";
 
@@ -283,3 +281,4 @@ public class SList {
 		      "insertFront after insertEnd failed");
   }
 }
+

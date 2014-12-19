@@ -1,6 +1,6 @@
-package homework.test;
+package homework2.test;
 
-import homework.Homework3;
+import homework2.Homework3;
 
 import org.junit.*;
 public class Homework3Test {

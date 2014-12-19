@@ -3,7 +3,7 @@ import homework.MinInstead;
 
 import org.junit.*;
 
-public class CSDN {
+public class MinInsteadTest {
 	@Test
 	public void testMinInstead() {
 		int[] arr1 = {1,7,2,20,22};
