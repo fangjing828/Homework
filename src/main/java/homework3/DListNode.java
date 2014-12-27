@@ -14,7 +14,6 @@ public class DListNode {
    *
    *  DO NOT CHANGE THE FOLLOWING FIELD DECLARATIONS.
    */
-
   public Object item;
   protected DListNode prev;
   protected DListNode next;
