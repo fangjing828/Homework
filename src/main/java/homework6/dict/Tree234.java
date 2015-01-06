@@ -163,6 +163,27 @@ public class Tree234 extends IntDictionary {
 		return false;
 	}
 
+	private Tree234Node getLeaf(Tree234Node node, int key) {
+		while ((node.child1 != null) || (node.child2 != null)
+				|| (node.child3 != null) || (node.child4 != null)
+				|| (node.keys == 3)) {
+			if (node.keys == 3) {
+				node = this.splitNode(node, key);
+			}
+
+			if (key < node.key1) {
+				node = node.child1;
+			} else if ((node.keys == 1) || (key < node.key2)) {
+				node = node.child2;
+			} else if ((node.keys == 2) || (key < node.key3)) {
+				node = node.child3;
+			} else {
+				node = node.child4;
+			}
+		}
+		return node;
+	}
+
 	/**
 	 * insert() inserts the key "key" into this 2-3-4 tree. If "key" is already
 	 * present, a duplicate copy is NOT inserted.
@@ -174,71 +195,27 @@ public class Tree234 extends IntDictionary {
 		if (this.root == null) {
 			this.root = new Tree234Node(null, key);
 		} else if (!this.find(key)) {
-			Tree234Node node = this.root;
-			boolean isEnd = false;
-			while (!isEnd) {
-				switch (node.keys) {
-				case 1:
-					if (key < node.key1) {
-						node.key2 = node.key1;
-						node.key1 = key;
-					} else {
-						node.key2 = key;
-					}
-					node.keys++;
-					isEnd = true;
-					break;
-				case 2:
-					if (key < node.key1) {
-						node.key3 = node.key2;
-						node.key2 = node.key1;
-						node.key1 = key;
-					} else if (key < node.key2) {
-						node.key3 = node.key2;
-						node.key2 = key;
-					} else {
-						node.key3 = key;
-					}
-					node.keys++;
-					isEnd = true;
-					break;
-				case 3:
-					if (key < node.key1) {
-						if (node.child1 != null) {
-							node = node.child1;
-						} else {
-							node.child1 = new Tree234Node(node, key);
-							isEnd = true;
-						}
-					} else if (key < node.key2) {
-						if (node.child2 != null) {
-							node = node.child2;
-						} else {
-							node.child2 = new Tree234Node(node, key);
-							isEnd = true;
-						}
-					} else if (key < node.key3) {
-						if (node.child3 != null) {
-							node = node.child3;
-						} else {
-							node.child3 = new Tree234Node(node, key);
-							isEnd = true;
-						}
-					} else {
-						if (node.child4 != null) {
-							node = node.child4;
-						} else {
-							node.child4 = new Tree234Node(node, key);
-							isEnd = true;
-						}
-					}
-					break;
-				default:
-					break;
-				}
-			}
+			Tree234Node node = this.getLeaf(this.root, key);
+			this.insert(node, key);
 		}
 		this.size++;
+	}
+
+	private void insert(Tree234Node node, int key) {
+		if (key < node.key1) {
+			node.key3 = node.key2;
+			node.key2 = node.key1;
+			node.key1 = key;
+			node.child4 = node.child3;
+			node.child3 = node.child2;
+		} else if ((node.keys == 1) || (key < node.key2)) {
+			node.key3 = node.key2;
+			node.key2 = key;
+			node.child4 = node.child3;
+		} else {
+			node.key3 = key;
+		}
+		node.keys++;
 	}
 
 	/**
@@ -251,6 +228,38 @@ public class Tree234 extends IntDictionary {
 			/* Most of the work is done by Tree234Node.printSubtree(). */
 			this.root.printSubtree(0);
 		}
+	}
+
+	private Tree234Node splitNode(Tree234Node node, int key) {
+		Tree234Node parent = node.parent;
+		if (parent == null) {
+			parent = new Tree234Node(null, node.key2);
+			this.root = parent;
+		} else {
+			this.insert(parent, node.key2);
+		}
+
+		Tree234Node node1 = new Tree234Node(parent, node.key1);
+		Tree234Node node3 = new Tree234Node(parent, node.key3);
+
+		node1.child1 = node.child1;
+		node1.child2 = node.child2;
+		this.updateParent(node1);
+		node3.child1 = node.child3;
+		node3.child2 = node.child4;
+		this.updateParent(node3);
+
+		if (node.key2 == parent.key1) {
+			parent.child1 = node1;
+			parent.child2 = node3;
+		} else if (node.key2 == parent.key2) {
+			parent.child2 = node1;
+			parent.child3 = node3;
+		} else {
+			parent.child3 = node1;
+			parent.child4 = node3;
+		}
+		return parent;
 	}
 
 	/**
@@ -293,4 +302,18 @@ public class Tree234 extends IntDictionary {
 		}
 	}
 
+	private void updateParent(Tree234Node node) {
+		if (node.child1 != null) {
+			node.child1.parent = node;
+		}
+		if (node.child2 != null) {
+			node.child2.parent = node;
+		}
+		if (node.child3 != null) {
+			node.child3.parent = node;
+		}
+		if (node.child4 != null) {
+			node.child4.parent = node;
+		}
+	}
 }
